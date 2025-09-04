@@ -34,7 +34,7 @@ const FetchUpdate=({user})=>{
     `${backend_url}/send-update`,
     { email:  user},
   );
-  if(res.statusText!='OK'){
+  if(res.status!=200){
     setError("failed to fetch retry")
   }
   if(res.data.message){
