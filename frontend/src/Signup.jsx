@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { backend_url } from "./config";
 
 export default function Signup({setUser}) {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ export default function Signup({setUser}) {
     
     setloading(true)
     try{
-      const res= await axios.post("http://localhost:3000/signup", { email });
+      const res= await axios.post(`${backend_url}/signup`, { email });
       setUser(res.data.email)
     }catch(e){
       console.log(e.message  ,'e')
