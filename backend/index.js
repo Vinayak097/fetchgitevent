@@ -15,7 +15,7 @@ const template_id = process.env.EMAILJS_TEMPLATE_ID;
 const public_key = process.env.EMAILJS_PUBLIC_KEY;
 
 import { createClient } from '@supabase/supabase-js';
-import authMiddleware from './middleware.js';
+
 
 
 emailjs.init({
@@ -88,7 +88,13 @@ app.post("/send-update", async (req, res) => {
         if(!success){
         res.json({message:"invalid input "})
     }
-  const { data } = await axios.get("https://api.github.com/events");
+  const { data } = await axios.get("https://api.github.com/events", {
+
+     headers: {
+    "User-Agent": "fetch-github-events",
+    Authorization: `token ${process.env.GITHUB_TOKEN}`
+  }
+  });
   const updates = data.slice(0, 3).map(ev => `Repo: ${ev.repo.name}, Type: ${ev.type}`).join("\n");
   await sendEmail(body.email,updates);
 
